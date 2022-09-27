@@ -14,7 +14,7 @@ namespace Scripts.Managers
         public event Action OnGameStarted;
         public event Action<bool> OnLevelFinished;
         public event Action<BlockBehaviour> OnNewBlockCollected;
-        public event Action<BlockBehaviour[]> OnBlockRemoved;
+        public event Action OnBlockRemoved;
         public event Action<bool> OnBlocksShuffled;
 
         public void GameStarted()
@@ -37,9 +37,9 @@ namespace Scripts.Managers
             OnNewBlockCollected?.Invoke(blockBehaviour);
         }
 
-        public void BlockRemoved(BlockBehaviour[] removedBlocks)
+        public void BlockRemoved()
         {
-            OnBlockRemoved?.Invoke(removedBlocks);
+            OnBlockRemoved?.Invoke();
         }
 
 
