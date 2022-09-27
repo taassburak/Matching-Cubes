@@ -57,18 +57,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scrpts\Managers\UIManager.cs" />
+    <Compile Include="Assets\Scrpts\Controllers\BlockController.cs" />
     <Compile Include="Assets\Scrpts\Managers\UIPanel.cs" />
     <Compile Include="Assets\Scrpts\Enums\SortingLayers.cs" />
+    <Compile Include="Assets\Scrpts\Behaiovurs\BlockBehaviour.cs" />
+    <Compile Include="Assets\Scrpts\Enums\Enum.cs" />
     <Compile Include="Assets\Scrpts\Managers\MainMenuPanel.cs" />
     <Compile Include="Assets\Scrpts\UI\CustomToggle.cs" />
     <Compile Include="Assets\Scrpts\Tools\TransformTools.cs" />
     <Compile Include="Assets\Scrpts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scrpts\UI\CustomButton.cs" />
-    <Compile Include="Assets\Scrpts\Behaiovurs\CustomBehaviour.cs" />
     <Compile Include="Assets\Scrpts\Managers\EventManager.cs" />
-    <Compile Include="Assets\Scrpts\Behaiovurs\BlockBehaviour.cs" />
-    <Compile Include="Assets\Scrpts\Enums\Enum.cs" />
-    <Compile Include="Assets\Scrpts\Controllers\BlockController.cs" />
+    <Compile Include="Assets\Scrpts\Behaiovurs\CustomBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_www.unityassetcollection.com.txt" />
@@ -296,8 +296,8 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.11f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Sirenix.Utilities.Editor">
+      <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.OdinInspector.Editor">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.OdinInspector.Editor.dll</HintPath>
@@ -311,11 +311,14 @@
     <Reference Include="Sirenix.Utilities">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Sirenix.Serialization">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Sirenix.Utilities.Editor">
-      <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.Editor.dll</HintPath>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.11f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
@@ -754,6 +757,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{85B469A5-A625-B887-84E9-A0F6B96EE3D9}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="Sirenix.OdinInspector.CompatibilityLayer.csproj">
       <Project>{8964557E-D7D6-49C8-A073-35134A32F838}</Project>
       <Name>Sirenix.OdinInspector.CompatibilityLayer</Name>
