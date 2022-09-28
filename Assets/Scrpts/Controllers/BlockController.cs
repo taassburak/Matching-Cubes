@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Scripts.Behaviours;
 namespace Scripts.Controllers
 {
 
@@ -16,8 +16,7 @@ namespace Scripts.Controllers
         public override void Initialize(GameManager gameManager)
         {
             base.Initialize(gameManager);
-            //_currentBlockList = new List<BlockBehaviour>();
-
+            _currentBlockList = new List<BlockBehaviour>();
             GameManager.EventManager.OnBlockRemoved += RemoveBlockFromCurrentBlockList;
             GameManager.EventManager.OnNewBlockCollected += AddBlockToCurrentBlockList;
             GameManager.EventManager.OnBlocksShuffled += Shuffle;
@@ -33,28 +32,50 @@ namespace Scripts.Controllers
         [Button]
         private void AddBlockToCurrentBlockList(BlockBehaviour newBlockBehaviour)
         {
-            var newBlock = Instantiate(_blockPrefab, _currentBlockList[_currentBlockList.Count - 1].transform.position, Quaternion.identity);
-            //_currentBlockList.Add(newBlockBehaviour);
-            _currentBlockList.Add(newBlock);
+            //var newBlock = Instantiate(_blockPrefab, _currentBlockList[_currentBlockList.Count - 1].transform.position, Quaternion.identity);
+            newBlockBehaviour.Initialize(this);
+            _currentBlockList.Add(newBlockBehaviour);
+            newBlockBehaviour.transform.SetParent(GameManager.PlayerController.PlayerMovementBehaviour.transform);
+            newBlockBehaviour.transform.localPosition = Vector3.zero;
+            newBlockBehaviour.IsTaken = true;
+            //_currentBlockList.Add(newBlock);
             UpdateBlocksSorting(false);
+            GameManager.PlayerController.PlayerMovementBehaviour.SetCharacterHeight();
             //CheckAnyThreeBlocksMatched();
+            GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count);
         }
 
         [Button]
-        private void RemoveBlockFromCurrentBlockList()
+        public void RemoveBlockFromCurrentBlockList(List<BlockBehaviour> blockBehaviours, bool isMatched)
         {
-            //Destroy(_currentBlockList[_currentBlockList.Count - 2].gameObject);
-            //_currentBlockList.Remove(_currentBlockList[_currentBlockList.Count - 2]);
-            //CheckAnyThreeBlocksMatched();
-            for (int i = 0; i < _distructibleTempBlockList.Count; i++)
+            if (isMatched)
             {
-                if (_distructibleTempBlockList[i] != null)
+                Debug.Log("CONGRATS!");
+            }
+            else
+            {
+                Debug.Log("Collide with obstacle");
+            }
+            StartCoroutine(RemoveBlockFromCurrentBlockListCo(blockBehaviours));
+            
+        }
+
+        private IEnumerator RemoveBlockFromCurrentBlockListCo(List<BlockBehaviour> blockBehaviours)
+        {
+            yield return new WaitForSeconds(0.25f);
+
+            for (int i = 0; i < blockBehaviours.Count; i++)
+            {
+                if (blockBehaviours[i] != null)
                 {
-                    Destroy(_distructibleTempBlockList[i].gameObject);
-                    _currentBlockList.Remove(_distructibleTempBlockList[i]);
+                    Destroy(blockBehaviours[i].gameObject);
+                    _currentBlockList.Remove(blockBehaviours[i]);
                 }
             }
+            GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count);
+            yield return new WaitForSeconds(0.1f);
             UpdateBlocksSorting(true);
+            GameManager.PlayerController.PlayerMovementBehaviour.SetCharacterHeight();
         }
 
         [Button]
@@ -82,8 +103,8 @@ namespace Scripts.Controllers
         {
             for (int i = _currentBlockList.Count - 1; i >= 0 ; i--)
             {
-                var temp = _currentBlockList[i].transform.position;
-                temp.y = (_currentBlockList.Count-1) - i;
+                //var temp = _currentBlockList[i].transform.position;
+                var temp = (_currentBlockList.Count-1) - i;
                 //_currentBlockList[i].transform.position = temp;
                 _currentBlockList[i].ChangePosition(temp, isRemoving);
             }
@@ -101,7 +122,7 @@ namespace Scripts.Controllers
                     _distructibleTempBlockList.Add(_currentBlockList[i]);
                     _distructibleTempBlockList.Add(_currentBlockList[i - 1]);
                     _distructibleTempBlockList.Add(_currentBlockList[i + 1]);
-                    GameManager.EventManager.BlockRemoved();
+                    GameManager.EventManager.BlockRemoved(_distructibleTempBlockList, true);
                 }
             }
 

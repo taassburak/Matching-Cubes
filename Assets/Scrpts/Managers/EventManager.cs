@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Scripts.Behaviours;
+
 namespace Scripts.Managers
 {
     public class EventManager : CustomBehaviour
@@ -14,7 +16,7 @@ namespace Scripts.Managers
         public event Action OnGameStarted;
         public event Action<bool> OnLevelFinished;
         public event Action<BlockBehaviour> OnNewBlockCollected;
-        public event Action OnBlockRemoved;
+        public event Action<List<BlockBehaviour>, bool> OnBlockRemoved;
         public event Action<bool> OnBlocksShuffled;
 
         public void GameStarted()
@@ -37,9 +39,9 @@ namespace Scripts.Managers
             OnNewBlockCollected?.Invoke(blockBehaviour);
         }
 
-        public void BlockRemoved()
+        public void BlockRemoved(List<BlockBehaviour> blockBehaviours, bool isMatched)
         {
-            OnBlockRemoved?.Invoke();
+            OnBlockRemoved?.Invoke(blockBehaviours, isMatched);
         }
 
 

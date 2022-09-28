@@ -3,21 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using Scripts.Enums;
 using DG.Tweening;
-public class BlockBehaviour : MonoBehaviour
+using Scripts.Controllers;
+
+namespace Scripts.Behaviours
 {
-    public BlockColors Color => _color;
-    [SerializeField] BlockColors _color;
 
 
-    public void ChangePosition(Vector3 newPosition, bool isRemoving)
+    public class BlockBehaviour : MonoBehaviour
     {
-        if (isRemoving)
+        public BlockColors Color => _color;
+        [SerializeField] BlockColors _color;
+        [SerializeField]private BlockObstacleDetectorBehaviour _blockObstacleDetectorBehaviour;
+        private BlockController _blockController;
+        public bool IsTaken { get; set; }
+
+        public void Initialize(BlockController blockController)
         {
-            transform.DOMove(newPosition, 0.35f).SetEase(Ease.InBack);
+            _blockController = blockController;
+            _blockObstacleDetectorBehaviour.Initialize(_blockController);
         }
-        else
+
+        private void OnDestroy()
         {
-            transform.DOMove(newPosition, 0.35f);
+            transform.DOKill();
+        }
+
+        public void ChangePosition(float newPositionY, bool isRemoving)
+        {
+            if (isRemoving)
+            {
+                transform.DOMoveY(newPositionY, 0.1f).SetEase(Ease.InBack);
+            }
+            else
+            {
+                transform.DOMoveY(newPositionY, 0.1f);
+            }
         }
     }
 }
