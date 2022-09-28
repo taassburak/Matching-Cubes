@@ -10,8 +10,13 @@ namespace Scripts.Behaviours
     {
         [SerializeField] private Animator _animator;
 
-        public void SetAnimation(int stackCount)
+        public void SetAnimation(int stackCount, bool isDead)
         {
+            if (isDead)
+            {
+                _animator.SetBool("dead", true);
+                return;
+            }
             if (stackCount > 0)
             {
                 _animator.SetBool("surfing", true);
@@ -23,6 +28,8 @@ namespace Scripts.Behaviours
                 _animator.SetBool("surfing", false);
             }
         }
+
+        
 
     }
 

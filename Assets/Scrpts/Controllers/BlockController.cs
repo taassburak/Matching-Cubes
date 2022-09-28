@@ -42,7 +42,7 @@ namespace Scripts.Controllers
             UpdateBlocksSorting(false);
             GameManager.PlayerController.PlayerMovementBehaviour.SetCharacterHeight();
             //CheckAnyThreeBlocksMatched();
-            GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count);
+            GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count,false);
         }
 
         [Button]
@@ -72,7 +72,7 @@ namespace Scripts.Controllers
                     _currentBlockList.Remove(blockBehaviours[i]);
                 }
             }
-            GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count);
+            GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count, false);
             yield return new WaitForSeconds(0.1f);
             UpdateBlocksSorting(true);
             GameManager.PlayerController.PlayerMovementBehaviour.SetCharacterHeight();

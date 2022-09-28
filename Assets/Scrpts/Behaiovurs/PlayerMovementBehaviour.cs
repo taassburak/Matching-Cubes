@@ -7,12 +7,14 @@ namespace Scripts.Behaviours
 {
     public class PlayerMovementBehaviour : MonoBehaviour
     {
+        public float Speed { get; set; }
         [SerializeField] GameObject _characterObject;
         private PlayerController _playerController;
         public void Initialize(PlayerController playerController)
         {
             _playerController = playerController;
             InputController.OnDrag += SetCharacterVerticalPosition;
+            Speed = 5f;
         }
         private void OnDestroy()
         {
@@ -21,7 +23,7 @@ namespace Scripts.Behaviours
 
         void Update()
         {
-           transform.Translate(Vector3.forward * Time.deltaTime * 5f);
+           transform.Translate(Vector3.forward * Time.deltaTime * Speed);
         }
 
         public void SetCharacterHeight()

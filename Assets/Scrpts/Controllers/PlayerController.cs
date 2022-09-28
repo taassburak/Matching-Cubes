@@ -9,6 +9,7 @@ namespace Scripts.Controllers
 
     public class PlayerController : CustomBehaviour
     {
+        public bool GodMode { get; set; }
         public PlayerAnimationController PlayerAnimationController => _playerAnimationController;
         public PlayerMovementBehaviour PlayerMovementBehaviour => _playerMovementBehaviour;
         [SerializeField] private PlayerMovementBehaviour _playerMovementBehaviour;
