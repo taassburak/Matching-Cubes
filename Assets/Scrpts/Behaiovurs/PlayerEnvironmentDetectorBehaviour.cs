@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Scripts.Behaviours
 {
 
-    public class PlayerObstacleDetectorBehaviour : MonoBehaviour
+    public class PlayerEnvironmentDetectorBehaviour : MonoBehaviour
     {
         private PlayerController _playerController;
         private Coroutine _countdownSpeedBoostCo;
@@ -31,10 +31,10 @@ namespace Scripts.Behaviours
             if (other.gameObject.CompareTag("SpeedBoost"))
             {
                 _playerController.GodMode = true;
-                _playerController.PlayerMovementBehaviour.Speed = 12f;
+                _playerController.PlayerMovementBehaviour.Speed = 8f;
                 if (_countdownSpeedBoostCo == null)
                 {
-                    StartCoroutine(CountdownForSpeedBoostCo());
+                    _countdownSpeedBoostCo = StartCoroutine(CountdownForSpeedBoostCo());
                 }
             }
         }
