@@ -2,7 +2,7 @@ using Scripts.Controllers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Cinemachine;
 
 namespace Scripts.Behaviours
 {
@@ -11,6 +11,10 @@ namespace Scripts.Behaviours
     {
         private PlayerController _playerController;
         private Coroutine _countdownSpeedBoostCo;
+
+        private float _pathDistance;
+        private CinemachineSmoothPath _currentPath;
+        private bool _isPathingActive;
         public void Initialize(PlayerController playerController)
         {
             _playerController = playerController;
@@ -36,6 +40,35 @@ namespace Scripts.Behaviours
                 {
                     _countdownSpeedBoostCo = StartCoroutine(CountdownForSpeedBoostCo());
                 }
+            }
+
+            if (other.gameObject.CompareTag("RampBoost"))
+            {
+                InputController.IsInputDeactivated = true;
+
+                _currentPath =  other.gameObject.GetComponent<PathBehaviour>().Path;
+                _isPathingActive = true;
+                
+            }
+        }
+
+        private void Update()
+        {
+            if (_isPathingActive)
+            {
+
+                //_playerController.PlayerMovementBehaviour.transform.position = new Vector3(_playerController.PlayerMovementBehaviour.transform.position.x, _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).y, _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).z);
+                _playerController.PlayerMovementBehaviour.transform.position = _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance);
+                //_playerController.PlayerMovementBehaviour.transform.rotation = _currentPath.EvaluateOrientationAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance);
+
+                _pathDistance += 10f * Time.deltaTime;
+                if (_pathDistance >= _currentPath.PathLength)
+                {
+                    InputController.IsInputDeactivated = false;
+                    _isPathingActive = false;
+                    _pathDistance = 0;
+                }
+                
             }
         }
 

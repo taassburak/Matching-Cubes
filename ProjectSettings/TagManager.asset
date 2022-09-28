@@ -8,6 +8,7 @@ TagManager:
   - Block
   - Obstacle
   - SpeedBoost
+  - RampBoost
   layers:
   - Default
   - TransparentFX
