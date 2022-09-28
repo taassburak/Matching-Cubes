@@ -11,6 +11,7 @@ namespace Scripts.Managers
         public EventManager EventManager => _eventManager;
         public PlayerController PlayerController => _playerController;
         public BlockController BlockController => _blockController;
+
         [SerializeField] private UIManager _uiManager;
         [SerializeField] private EventManager _eventManager;
         [SerializeField] private BlockController _blockController;

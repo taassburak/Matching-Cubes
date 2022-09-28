@@ -14,7 +14,7 @@ namespace Scripts.Controllers
         public PlayerMovementBehaviour PlayerMovementBehaviour => _playerMovementBehaviour;
         [SerializeField] private PlayerMovementBehaviour _playerMovementBehaviour;
         [SerializeField] private PlayerBlockDetectorBehaviour _playerBlockDetectorBehaviour;
-        [SerializeField] private PlayerObstacleDetectorBehaviour _playerObstacleDetectorBehaviour;
+        [SerializeField] private PlayerEnvironmentDetectorBehaviour _playerEnvironmentDetectorBehaviour;
         [SerializeField] private PlayerAnimationController _playerAnimationController;
         public override void Initialize(GameManager gameManager)
         {
@@ -22,7 +22,7 @@ namespace Scripts.Controllers
 
             _playerMovementBehaviour.Initialize(this);
             _playerBlockDetectorBehaviour.Initialize(this);
-            _playerObstacleDetectorBehaviour.Initialize(this);
+            _playerEnvironmentDetectorBehaviour.Initialize(this);
 
         }
     }
