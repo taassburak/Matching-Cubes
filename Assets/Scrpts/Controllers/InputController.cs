@@ -34,15 +34,13 @@ public class InputController : MonoBehaviour
                 _isDragging = false;
             }
 
-            if (_isDragging)
+            if (_isDragging && !IsInputDeactivated)
             {
                 _dragVector = (Vector2)Input.mousePosition - _firstPosition;
 
-                if (_dragVector.x > Mathf.Abs(0.2f))
-                {
-                   
-                }
+
                 OnDrag?.Invoke(_dragVector * 0.02f);
+
                 _firstPosition = Input.mousePosition;
             }
         }

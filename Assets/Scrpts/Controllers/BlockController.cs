@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Scripts.Behaviours;
+using System.Reflection.Emit;
+using Sirenix.OdinInspector.Editor.Validation;
+
 namespace Scripts.Controllers
 {
 
@@ -13,6 +16,9 @@ namespace Scripts.Controllers
         [SerializeField]private List<BlockBehaviour> _currentBlockList;
         [SerializeField] private BlockBehaviour _blockPrefab;
         private List<BlockBehaviour> _distructibleTempBlockList;
+
+        private int _comboCounter;
+
         public override void Initialize(GameManager gameManager)
         {
             base.Initialize(gameManager);
@@ -51,10 +57,17 @@ namespace Scripts.Controllers
             if (isMatched)
             {
                 Debug.Log("CONGRATS!");
+                _comboCounter++;
+                if (_comboCounter >= 3)
+                {
+                    GameManager.EventManager.GodModCombo();
+                    _comboCounter = 0;
+                }
             }
             else
             {
                 Debug.Log("Collide with obstacle");
+                _comboCounter = 0;
             }
             StartCoroutine(RemoveBlockFromCurrentBlockListCo(blockBehaviours));
             
@@ -94,9 +107,34 @@ namespace Scripts.Controllers
             else
             {
                 //to DO: sort By Colors;
+                int currentIndex = -1;
+                for (int i = 0; i < 3; i++)
+                {
+                    
+                    for (int j = 0; j < _currentBlockList.Count; j++)
+                    {
+                        if (_currentBlockList[j].Color == (Enums.BlockColors)i)
+                        {
+                            currentIndex++;
+                            var temp = _currentBlockList[j];
+                            _currentBlockList[j] = _currentBlockList[currentIndex];
+                            _currentBlockList[currentIndex] = temp;
+                        }
+                    }
+
+                }
+                
+
+
             }
 
             UpdateBlocksSorting(false);
+        }
+
+        [Button]
+        public void a()
+        {
+            _currentBlockList[0] = _currentBlockList[1];
         }
 
         private void UpdateBlocksSorting(bool isRemoving)
@@ -106,7 +144,10 @@ namespace Scripts.Controllers
                 //var temp = _currentBlockList[i].transform.position;
                 var temp = (_currentBlockList.Count-1) - i;
                 //_currentBlockList[i].transform.position = temp;
-                _currentBlockList[i].ChangePosition(temp, isRemoving);
+                if (_currentBlockList[i] != null)
+                {
+                    _currentBlockList[i].ChangePosition(temp, isRemoving);
+                }
             }
             CheckAnyThreeBlocksMatched();
         }

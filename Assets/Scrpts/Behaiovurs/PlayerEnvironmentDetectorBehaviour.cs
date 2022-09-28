@@ -34,12 +34,8 @@ namespace Scripts.Behaviours
 
             if (other.gameObject.CompareTag("SpeedBoost"))
             {
-                _playerController.GodMode = true;
+                //_playerController.GameManager.EventManager.GodModCombo();
                 _playerController.PlayerMovementBehaviour.Speed = 8f;
-                if (_countdownSpeedBoostCo == null)
-                {
-                    _countdownSpeedBoostCo = StartCoroutine(CountdownForSpeedBoostCo());
-                }
             }
 
             if (other.gameObject.CompareTag("RampBoost"))
@@ -57,9 +53,9 @@ namespace Scripts.Behaviours
             if (_isPathingActive)
             {
 
-                //_playerController.PlayerMovementBehaviour.transform.position = new Vector3(_playerController.PlayerMovementBehaviour.transform.position.x, _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).y, _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).z);
-                _playerController.PlayerMovementBehaviour.transform.position = _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance);
-                //_playerController.PlayerMovementBehaviour.transform.rotation = _currentPath.EvaluateOrientationAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance);
+                _playerController.PlayerMovementBehaviour.transform.position = new Vector3(_playerController.PlayerMovementBehaviour.transform.position.x, _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).y, _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).z);
+                //_playerController.PlayerMovementBehaviour.transform.position = _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance);
+                
 
                 _pathDistance += 10f * Time.deltaTime;
                 if (_pathDistance >= _currentPath.PathLength)
@@ -67,21 +63,13 @@ namespace Scripts.Behaviours
                     InputController.IsInputDeactivated = false;
                     _isPathingActive = false;
                     _pathDistance = 0;
+                    var temp = _playerController.PlayerMovementBehaviour.transform.position;
+                    temp.y = 0;
+                    _playerController.PlayerMovementBehaviour.transform.position = temp;
                 }
                 
             }
         }
-
-        private IEnumerator CountdownForSpeedBoostCo()
-        {
-            yield return new WaitForSeconds(4f);
-            _playerController.PlayerMovementBehaviour.Speed = 5f;
-            _playerController.GodMode = false;
-            _countdownSpeedBoostCo = null;
-        }
-
-        
-
     }
 
 }

@@ -18,7 +18,7 @@ namespace Scripts.Managers
         public event Action<BlockBehaviour> OnNewBlockCollected;
         public event Action<List<BlockBehaviour>, bool> OnBlockRemoved;
         public event Action<bool> OnBlocksShuffled;
-
+        public event Action OnGodModCombo;
         public void GameStarted()
         {
             OnGameStarted?.Invoke();
@@ -55,5 +55,9 @@ namespace Scripts.Managers
             OnBlocksShuffled?.Invoke(false);
         }
 
+        public void GodModCombo()
+        {
+            OnGodModCombo?.Invoke();
+        }
     }
 }
