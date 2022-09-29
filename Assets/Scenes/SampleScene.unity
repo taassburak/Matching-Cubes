@@ -1320,7 +1320,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.5996732, y: 1}
+    m_SensorSize: {x: 0.4753886, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1355,6 +1355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1383268323}
   - component: {fileID: 1383268320}
+  - component: {fileID: 1383268324}
   m_Layer: 0
   m_Name: SpeedUp
   m_TagString: SpeedBoost
@@ -1391,6 +1392,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1383268324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383268319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33ce5b222c6dfa45b68b861ec0451d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1384214253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2147,6 +2160,7 @@ GameObject:
   - component: {fileID: 2105832113}
   - component: {fileID: 2105832112}
   - component: {fileID: 2105832111}
+  - component: {fileID: 2105832116}
   m_Layer: 0
   m_Name: Obstacle
   m_TagString: Obstacle
@@ -2248,6 +2262,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2105832116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105832110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8d0edf2f2df074bb9c75225e03647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &303629364436769535
 PrefabInstance:
   m_ObjectHideFlags: 0
