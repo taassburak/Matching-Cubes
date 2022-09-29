@@ -10,6 +10,18 @@ namespace Scripts.Behaviours
     {
         [SerializeField] private Animator _animator;
 
+        private PlayerController _playerController;
+        public void Initialize(PlayerController playerController)
+        {
+            _playerController = playerController;
+            _playerController.GameManager.EventManager.OnChangeAnimation += SetAnimation;
+        }
+
+        private void OnDestroy()
+        {
+            _playerController.GameManager.EventManager.OnChangeAnimation -= SetAnimation;
+        }
+
         public void SetAnimation(int stackCount, bool isDead)
         {
             if (isDead)
@@ -27,6 +39,9 @@ namespace Scripts.Behaviours
                 _animator.SetBool("running", true);
                 _animator.SetBool("surfing", false);
             }
+           
+
+            
         }
 
         

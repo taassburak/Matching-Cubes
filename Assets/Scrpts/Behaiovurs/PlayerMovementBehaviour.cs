@@ -3,14 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Cinemachine;
 
 namespace Scripts.Behaviours
 {
     public class PlayerMovementBehaviour : MonoBehaviour
     {
+       
         public float Speed { get; set; }
         [SerializeField] GameObject _characterObject;
         private PlayerController _playerController;
+
+        #region "Pathing variables"
+        public bool IsPathingState { get; set; }
+        public CinemachineSmoothPath CurrentPath { get; set; }
+        private float _pathDistance;
+        #endregion
+
         public void Initialize(PlayerController playerController)
         {
             _playerController = playerController;
@@ -27,6 +36,24 @@ namespace Scripts.Behaviours
             if (!InputController.IsInputDeactivated)
             {
                 transform.Translate(Vector3.forward * Time.deltaTime * Speed);
+            }
+
+            if (IsPathingState)
+            {
+                transform.position = new Vector3(_playerController.PlayerMovementBehaviour.transform.position.x, CurrentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).y, CurrentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).z);
+                //_playerController.PlayerMovementBehaviour.transform.position = _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance);
+
+
+                _pathDistance += 10f * Time.deltaTime;
+                if (_pathDistance >= CurrentPath.PathLength)
+                {
+                    InputController.IsInputDeactivated = false;
+                    IsPathingState = false;
+                    _pathDistance = 0;
+                    var temp = _playerController.PlayerMovementBehaviour.transform.position;
+                    temp.y = 0;
+                    _playerController.PlayerMovementBehaviour.transform.position = temp;
+                }
             }
         }
 

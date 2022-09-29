@@ -4,12 +4,13 @@ using UnityEngine;
 using Scripts.Enums;
 using DG.Tweening;
 using Scripts.Controllers;
+using Scripts.Managers;
 
 namespace Scripts.Behaviours
 {
 
 
-    public class BlockBehaviour : MonoBehaviour
+    public class BlockBehaviour : MonoBehaviour, IInteract
     {
         public BlockColors Color => _color;
         [SerializeField] BlockColors _color;
@@ -38,6 +39,11 @@ namespace Scripts.Behaviours
             {
                 transform.DOMoveY(newPositionY, 0.1f);
             }
+        }
+
+        public void Interact(GameManager gameManager)
+        {
+            
         }
     }
 }

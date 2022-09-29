@@ -25,6 +25,7 @@ namespace Scripts.Controllers
             _playerMovementBehaviour.Initialize(this);
             _playerBlockDetectorBehaviour.Initialize(this);
             _playerEnvironmentDetectorBehaviour.Initialize(this);
+            _playerAnimationController.Initialize(this);
             GameManager.EventManager.OnGodModCombo += StartingGodMode;
         }
 

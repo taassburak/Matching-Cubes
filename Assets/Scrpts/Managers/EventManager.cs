@@ -19,6 +19,7 @@ namespace Scripts.Managers
         public event Action<List<BlockBehaviour>, bool> OnBlockRemoved;
         public event Action<bool> OnBlocksShuffled;
         public event Action OnGodModCombo;
+        public event Action<int, bool> OnChangeAnimation;
         public void GameStarted()
         {
             OnGameStarted?.Invoke();
@@ -58,6 +59,11 @@ namespace Scripts.Managers
         public void GodModCombo()
         {
             OnGodModCombo?.Invoke();
+        }
+
+        public void AnimationChanged(int count, bool isDead)
+        {
+            OnChangeAnimation?.Invoke(count, isDead);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Scripts.Managers;
 
 namespace Scripts.Behaviours
 {
@@ -22,54 +23,56 @@ namespace Scripts.Behaviours
 
         private void OnTriggerEnter(Collider other)
         {
+            if (other.gameObject.GetComponent<IInteract>() != null)
+            {
+                other.GetComponent<IInteract>().Interact(_playerController.GameManager);
+            }
+
+
             if (other.gameObject.CompareTag("Obstacle"))
             {
-                if (!_playerController.GodMode)
-                {
-                    _playerController.PlayerMovementBehaviour.Speed = 0f;
-                    _playerController.PlayerAnimationController.SetAnimation(0, true);
-                    Debug.Log("Game over");
-                }
+                //if (!_playerController.GodMode)
+                //{
+                //    _playerController.PlayerMovementBehaviour.Speed = 0f;
+                //    _playerController.PlayerAnimationController.SetAnimation(0, true);
+                    
+                //}
+                //Interface Done..
             }
 
             if (other.gameObject.CompareTag("SpeedBoost"))
             {
                 //_playerController.GameManager.EventManager.GodModCombo();
-                _playerController.PlayerMovementBehaviour.Speed = 8f;
+                //_playerController.PlayerMovementBehaviour.Speed = 8f;
+                //Interface Done..
             }
 
             if (other.gameObject.CompareTag("RampBoost"))
             {
-                InputController.IsInputDeactivated = true;
+                //InputController.IsInputDeactivated = true;
 
-                _currentPath =  other.gameObject.GetComponent<PathBehaviour>().Path;
-                _isPathingActive = true;
+                //_currentPath =  other.gameObject.GetComponent<PathBehaviour>().Path;
+                //_isPathingActive = true;
+
+                //Interface Done..
                 
             }
+
+            //if (other.gameObject.CompareTag("SuffleGate"))
+            //{
+            //    //if (other.gameObject.GetComponent<SuffleGateBehaviour>().IsRandomSuffleGate)
+            //    //{
+            //    //    _playerController.GameManager.EventManager.BlocksShuffledRandomly();
+            //    //}
+            //    //else
+            //    //{
+            //    //    _playerController.GameManager.EventManager.BlocksShuffledByColors();
+            //    //}
+
+            //    //Interface Done..
+            //}
         }
 
-        private void Update()
-        {
-            if (_isPathingActive)
-            {
-
-                _playerController.PlayerMovementBehaviour.transform.position = new Vector3(_playerController.PlayerMovementBehaviour.transform.position.x, _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).y, _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).z);
-                //_playerController.PlayerMovementBehaviour.transform.position = _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance);
-                
-
-                _pathDistance += 10f * Time.deltaTime;
-                if (_pathDistance >= _currentPath.PathLength)
-                {
-                    InputController.IsInputDeactivated = false;
-                    _isPathingActive = false;
-                    _pathDistance = 0;
-                    var temp = _playerController.PlayerMovementBehaviour.transform.position;
-                    temp.y = 0;
-                    _playerController.PlayerMovementBehaviour.transform.position = temp;
-                }
-                
-            }
-        }
     }
 
 }
