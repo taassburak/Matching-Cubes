@@ -56,7 +56,7 @@ namespace Scripts.Controllers
         }
 
         [Button]
-        public void RemoveBlockFromCurrentBlockList(ref List<BlockBehaviour> removedblockBehaviours, bool isMatched)
+        public void RemoveBlockFromCurrentBlockList(ref List<BlockBehaviour> removedblockBehaviours, bool isMatched, bool isBlockObstacle)
         {
             if (isMatched)
             {
@@ -74,13 +74,13 @@ namespace Scripts.Controllers
                 _comboCounter = 0;
             }
             
-            StartCoroutine(RemoveBlockFromCurrentBlockListCo(removedblockBehaviours));
+            StartCoroutine(RemoveBlockFromCurrentBlockListCo(removedblockBehaviours, isBlockObstacle));
 
             
         }
 
 
-        private IEnumerator RemoveBlockFromCurrentBlockListCo(List<BlockBehaviour> removedblockBehaviours)
+        private IEnumerator RemoveBlockFromCurrentBlockListCo(List<BlockBehaviour> removedblockBehaviours, bool isBlockObstacle)
         {
 
             for (int i = 0; i < removedblockBehaviours.Count; i++)
@@ -91,11 +91,19 @@ namespace Scripts.Controllers
                     _currentBlockList.Remove(removedblockBehaviours[i]);
                 }
             }
-            
-            
+
+            float time = 0;
+            if (isBlockObstacle)
+            {
+                time = 0.20f;
+            }
+            else
+            {
+                time = 0.05f;
+            }
 
             //GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count, false);
-            yield return new WaitForSeconds(0.20f);
+            yield return new WaitForSeconds(time);
             GameManager.EventManager.AnimationChanged(_currentBlockList.Count, false);
             UpdateBlocksSorting(true);
             
@@ -169,7 +177,7 @@ namespace Scripts.Controllers
                     _distructibleTempBlockList.Add(_currentBlockList[i]);
                     _distructibleTempBlockList.Add(_currentBlockList[i - 1]);
                     _distructibleTempBlockList.Add(_currentBlockList[i + 1]);
-                    GameManager.EventManager.BlockRemoved(ref _distructibleTempBlockList, true);
+                    GameManager.EventManager.BlockRemoved(ref _distructibleTempBlockList, true, true);
                 }
             }
 

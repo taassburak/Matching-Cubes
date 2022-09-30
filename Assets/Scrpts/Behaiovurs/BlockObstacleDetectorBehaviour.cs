@@ -9,6 +9,7 @@ namespace Scripts.Behaviours
     public class BlockObstacleDetectorBehaviour : MonoBehaviour
     {
         private BlockController _blockController;
+        
         public void Initialize(BlockController blockController)
         {
             _blockController = blockController;
@@ -20,7 +21,7 @@ namespace Scripts.Behaviours
                 List<BlockBehaviour> blockBehaviours;
                 blockBehaviours = new List<BlockBehaviour>();
                 blockBehaviours.Add(transform.GetComponent<BlockBehaviour>());
-                _blockController.GameManager.EventManager.BlockRemoved(ref blockBehaviours, false);
+                _blockController.GameManager.EventManager.BlockRemoved(ref blockBehaviours, false, other.GetComponent<ObstacleBehaviour>().IsBlockObstacle);
             }
         }
     }
