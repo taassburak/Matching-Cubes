@@ -27,15 +27,19 @@ namespace Scripts.Behaviours
             if (isDead)
             {
                 _animator.SetBool("dead", true);
+                _animator.SetBool("running", false);
+                _animator.SetBool("surfing", false);
                 return;
             }
             if (stackCount > 0)
             {
                 _animator.SetBool("surfing", true);
                 _animator.SetBool("running", false);
+                _animator.SetBool("dead", false);
             }
             else
             {
+                _animator.SetBool("dead", false);
                 _animator.SetBool("running", true);
                 _animator.SetBool("surfing", false);
             }

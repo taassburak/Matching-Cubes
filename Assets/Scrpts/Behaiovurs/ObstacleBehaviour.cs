@@ -11,6 +11,8 @@ public class ObstacleBehaviour : MonoBehaviour, IInteract
         {
             gameManager.PlayerController.PlayerMovementBehaviour.Speed = 0;
             gameManager.EventManager.AnimationChanged(0, true);
+            gameManager.UIManager.FinishPanel.ShowPanel();
+            gameManager.EventManager.LevelFailed();
             Debug.Log("Game over");
         }
     }

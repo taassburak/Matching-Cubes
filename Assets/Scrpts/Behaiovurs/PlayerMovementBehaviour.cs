@@ -75,8 +75,16 @@ namespace Scripts.Behaviours
             if (!InputController.IsInputDeactivated)
             {
                 var temp = transform.position;
-                temp.x = vector2.x;
-                transform.position += new Vector3(temp.x, temp.y, 0);
+                temp.x = Mathf.Clamp(temp.x, -2.50f, 2.50f);
+                transform.position = temp;
+                if (temp.x >= -2.45f && vector2.x < 0)
+                {
+                    transform.position += new Vector3(vector2.x * Time.deltaTime * 5f, temp.y, 0);
+                }
+                else if(temp.x <= 2.45f && vector2.x > 0)
+                {
+                    transform.position += new Vector3(vector2.x * Time.deltaTime * 5f, temp.y, 0);
+                }
             }
 
         }

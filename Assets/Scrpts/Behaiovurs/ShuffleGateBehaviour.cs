@@ -7,13 +7,13 @@ using UnityEngine;
 
 namespace Scripts.Behaviours
 {
-    public class SuffleGateBehaviour : MonoBehaviour, IInteract
+    public class ShuffleGateBehaviour : MonoBehaviour, IInteract
     {
-        [SerializeField] bool _isRamdomSuffleGate;
+        [SerializeField] bool _isRamdomShuffleGate;
 
         public void Interact(GameManager gameManager)
         {
-            if (_isRamdomSuffleGate)
+            if (_isRamdomShuffleGate)
             {
                 gameManager.EventManager.BlocksShuffledRandomly();
             }

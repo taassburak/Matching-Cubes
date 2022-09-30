@@ -5,17 +5,19 @@ using Scripts.Enums;
 using DG.Tweening;
 using Scripts.Controllers;
 using Scripts.Managers;
+using Sirenix.OdinInspector;
 
 namespace Scripts.Behaviours
 {
 
 
-    public class BlockBehaviour : MonoBehaviour, IInteract
+    public class BlockBehaviour : MonoBehaviour
     {
         public BlockColors Color => _color;
         [SerializeField] BlockColors _color;
         [SerializeField]private BlockObstacleDetectorBehaviour _blockObstacleDetectorBehaviour;
         private BlockController _blockController;
+
         public bool IsTaken { get; set; }
 
         public void Initialize(BlockController blockController)
@@ -41,9 +43,6 @@ namespace Scripts.Behaviours
             }
         }
 
-        public void Interact(GameManager gameManager)
-        {
-            
-        }
+       
     }
 }

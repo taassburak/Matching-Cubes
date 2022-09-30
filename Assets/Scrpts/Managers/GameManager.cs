@@ -16,14 +16,23 @@ namespace Scripts.Managers
         [SerializeField] private EventManager _eventManager;
         [SerializeField] private BlockController _blockController;
         [SerializeField] private PlayerController _playerController;
+        [SerializeField] private LevelManager _levelManager;
         private void Awake()
         {
             Application.targetFrameRate = 60;
 
             _uiManager.Initialize(this);
             _eventManager.Initialize(this);
+            _levelManager.Initialize(this);
             _blockController.Initialize(this);
             _playerController.Initialize(this);
+
+            
+        }
+
+        private void Start()
+        {
+            EventManager.GameStarted();
         }
     }
 }

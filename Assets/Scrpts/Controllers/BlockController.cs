@@ -17,7 +17,6 @@ namespace Scripts.Controllers
         [SerializeField]private List<BlockBehaviour> _currentBlockList;
         [SerializeField] private BlockBehaviour _blockPrefab;
         private List<BlockBehaviour> _distructibleTempBlockList;
-        private List<BlockBehaviour> _tempList;
         private int _comboCounter;
 
         public override void Initialize(GameManager gameManager)
@@ -28,6 +27,7 @@ namespace Scripts.Controllers
             GameManager.EventManager.OnBlockRemoved2Instance += RemoveBlockFromCurrentBlockList;
             GameManager.EventManager.OnNewBlockCollected += AddBlockToCurrentBlockList;
             GameManager.EventManager.OnBlocksShuffled += Shuffle;
+            GameManager.EventManager.OnGameStarted += RefreshBlockList;
         }
 
         private void OnDestroy()
@@ -35,6 +35,7 @@ namespace Scripts.Controllers
             GameManager.EventManager.OnBlockRemoved2Instance -= RemoveBlockFromCurrentBlockList;
             GameManager.EventManager.OnNewBlockCollected -= AddBlockToCurrentBlockList;
             GameManager.EventManager.OnBlocksShuffled -= Shuffle;
+            GameManager.EventManager.OnGameStarted -= RefreshBlockList;
         }
 
         [Button]
@@ -47,8 +48,8 @@ namespace Scripts.Controllers
             newBlockBehaviour.transform.localPosition = Vector3.zero;
             newBlockBehaviour.IsTaken = true;
             //_currentBlockList.Add(newBlock);
+            //GameManager.PlayerController.PlayerMovementBehaviour.SetCharacterHeight();
             UpdateBlocksSorting(false);
-            GameManager.PlayerController.PlayerMovementBehaviour.SetCharacterHeight();
             //CheckAnyThreeBlocksMatched();
             GameManager.EventManager.AnimationChanged(_currentBlockList.Count, false);
             //GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count,false);
@@ -81,22 +82,23 @@ namespace Scripts.Controllers
 
         private IEnumerator RemoveBlockFromCurrentBlockListCo(List<BlockBehaviour> removedblockBehaviours)
         {
-            
-            yield return new WaitForSeconds(0.25f);
 
             for (int i = 0; i < removedblockBehaviours.Count; i++)
             {
                 if (removedblockBehaviours[i] != null)
                 {
                     Destroy(removedblockBehaviours[i].gameObject);
-                    _currentBlockList.Remove(removedblockBehaviours[i]); 
+                    _currentBlockList.Remove(removedblockBehaviours[i]);
                 }
             }
-            GameManager.EventManager.AnimationChanged(_currentBlockList.Count, false);
+            
+            
+
             //GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count, false);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.25f);
+            GameManager.EventManager.AnimationChanged(_currentBlockList.Count, false);
             UpdateBlocksSorting(true);
-            GameManager.PlayerController.PlayerMovementBehaviour.SetCharacterHeight();
+            
             removedblockBehaviours.Clear();
         }
 
@@ -130,7 +132,6 @@ namespace Scripts.Controllers
                             _currentBlockList[currentIndex] = temp;
                         }
                     }
-
                 }
                 
 
@@ -138,12 +139,6 @@ namespace Scripts.Controllers
             }
 
             UpdateBlocksSorting(false);
-        }
-
-        [Button]
-        public void a()
-        {
-            _currentBlockList[0] = _currentBlockList[1];
         }
 
         private void UpdateBlocksSorting(bool isRemoving)
@@ -158,6 +153,7 @@ namespace Scripts.Controllers
                     _currentBlockList[i].ChangePosition(temp, isRemoving);
                 }
             }
+            GameManager.PlayerController.PlayerMovementBehaviour.SetCharacterHeight();
             CheckAnyThreeBlocksMatched();
         }
         
@@ -177,6 +173,16 @@ namespace Scripts.Controllers
                 }
             }
 
+        }
+
+        private void RefreshBlockList()
+        {
+            for (int i = 0; i < _currentBlockList.Count; i++)
+            {
+                Destroy(_currentBlockList[i].gameObject);
+            }
+            _currentBlockList.Clear();
+            _comboCounter = 0;
         }
 
     }

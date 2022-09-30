@@ -27,11 +27,13 @@ namespace Scripts.Controllers
             _playerEnvironmentDetectorBehaviour.Initialize(this);
             _playerAnimationController.Initialize(this);
             GameManager.EventManager.OnGodModCombo += StartingGodMode;
+            GameManager.EventManager.OnGameStarted += RefreshCharacterPosition; 
         }
 
         private void OnDestroy()
         {
             GameManager.EventManager.OnGodModCombo -= StartingGodMode;
+            GameManager.EventManager.OnGameStarted -= RefreshCharacterPosition;
         }
 
         public void StartingGodMode()
@@ -54,6 +56,15 @@ namespace Scripts.Controllers
             yield return new WaitForSeconds(3.5f);
             GodMode = false;
             _godModeCoroutine = null;
+        }
+
+        private void RefreshCharacterPosition()
+        {
+            PlayerMovementBehaviour.transform.position = Vector3.zero;
+            GodMode = false;
+            PlayerMovementBehaviour.Speed = 5f;
+            _playerAnimationController.SetAnimation(0, false);
+            _playerMovementBehaviour.SetCharacterHeight();
         }
     }
 
