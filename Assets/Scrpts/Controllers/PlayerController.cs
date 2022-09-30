@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Scripts.Behaviours;
 using Scripts.Managers;
+using Sirenix.OdinInspector;
 
 namespace Scripts.Controllers
 {
@@ -36,9 +37,12 @@ namespace Scripts.Controllers
             GameManager.EventManager.OnGameStarted -= RefreshCharacterPosition;
         }
 
+        [Button]
         public void StartingGodMode()
         {
             GodMode = true;
+            GameManager.UIManager.InGamePanel.ShowPanel();
+            GameManager.UIManager.InGamePanel.SetFeverModeText(true);
             StopGodMode();
         }
 
@@ -56,6 +60,8 @@ namespace Scripts.Controllers
             yield return new WaitForSeconds(3.5f);
             GodMode = false;
             _godModeCoroutine = null;
+            GameManager.UIManager.InGamePanel.SetFeverModeText(false);
+            GameManager.UIManager.InGamePanel.HidePanel();
         }
 
         private void RefreshCharacterPosition()

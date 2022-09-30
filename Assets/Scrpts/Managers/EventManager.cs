@@ -19,10 +19,10 @@ namespace Scripts.Managers
         public event Action OnGameStarted;
         public event Action<bool> OnLevelFinished;
         public event Action<BlockBehaviour> OnNewBlockCollected;
-        public event Action<List<BlockBehaviour>, bool> OnBlockRemoved;
         public event Action<bool> OnBlocksShuffled;
         public event Action OnGodModCombo;
         public event Action<int, bool> OnChangeAnimation;
+        public event Action<bool, Color> OnTrailChanged;
         public void GameStarted()
         {
             OnGameStarted?.Invoke();
@@ -45,8 +45,6 @@ namespace Scripts.Managers
 
         public void BlockRemoved(ref List<BlockBehaviour> blockBehaviours, bool isMatched, bool isBlockObstacle)
         {
-            //OnBlockRemoved?.Invoke(ref blockBehaviours, isMatched);
-
             OnBlockRemoved2Instance?.Invoke(ref blockBehaviours, isMatched, isBlockObstacle);
         }
 
@@ -69,6 +67,11 @@ namespace Scripts.Managers
         public void AnimationChanged(int count, bool isDead)
         {
             OnChangeAnimation?.Invoke(count, isDead);
+        }
+
+        public void TrailChanged(bool blockExist, Color color)
+        {
+            OnTrailChanged?.Invoke(blockExist, color);
         }
     }
 }

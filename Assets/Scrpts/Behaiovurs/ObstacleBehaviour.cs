@@ -9,20 +9,25 @@ enum ObstacleType
     Lava
 }
 
-public class ObstacleBehaviour : MonoBehaviour, IInteract
+namespace Scripts.Behaviours
 {
-    public bool IsBlockObstacle => _isBlockObstacle;
-    [SerializeField] private bool _isBlockObstacle;
-    [SerializeField] private ObstacleType _obstacleType;
-    public void Interact(GameManager gameManager)
+
+
+    public class ObstacleBehaviour : MonoBehaviour, IInteract
     {
-        if (!gameManager.PlayerController.GodMode)
+        public bool IsBlockObstacle => _isBlockObstacle;
+        [SerializeField] private bool _isBlockObstacle;
+        [SerializeField] private ObstacleType _obstacleType;
+        public void Interact(GameManager gameManager)
         {
-            gameManager.PlayerController.PlayerMovementBehaviour.Speed = 0;
-            gameManager.EventManager.AnimationChanged(0, true);
-            gameManager.UIManager.FinishPanel.ShowPanel();
-            gameManager.EventManager.LevelFailed();
-            Debug.Log("Game over");
+            if (!gameManager.PlayerController.GodMode)
+            {
+                gameManager.PlayerController.PlayerMovementBehaviour.Speed = 0;
+                gameManager.EventManager.AnimationChanged(0, true);
+                gameManager.UIManager.FinishPanel.ShowPanel();
+                gameManager.EventManager.LevelFailed();
+                Debug.Log("Game over");
+            }
         }
     }
 }

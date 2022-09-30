@@ -41,18 +41,14 @@ namespace Scripts.Controllers
         [Button]
         private void AddBlockToCurrentBlockList(BlockBehaviour newBlockBehaviour)
         {
-            //var newBlock = Instantiate(_blockPrefab, _currentBlockList[_currentBlockList.Count - 1].transform.position, Quaternion.identity);
+            
             newBlockBehaviour.Initialize(this);
             _currentBlockList.Add(newBlockBehaviour);
             newBlockBehaviour.transform.SetParent(GameManager.PlayerController.PlayerMovementBehaviour.transform);
             newBlockBehaviour.transform.localPosition = Vector3.zero;
             newBlockBehaviour.IsTaken = true;
-            //_currentBlockList.Add(newBlock);
-            //GameManager.PlayerController.PlayerMovementBehaviour.SetCharacterHeight();
             UpdateBlocksSorting(false);
-            //CheckAnyThreeBlocksMatched();
             GameManager.EventManager.AnimationChanged(_currentBlockList.Count, false);
-            //GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count,false);
         }
 
         [Button]
@@ -102,7 +98,6 @@ namespace Scripts.Controllers
                 time = 0.05f;
             }
 
-            //GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count, false);
             yield return new WaitForSeconds(time);
             GameManager.EventManager.AnimationChanged(_currentBlockList.Count, false);
             UpdateBlocksSorting(true);
@@ -153,22 +148,30 @@ namespace Scripts.Controllers
         {
             for (int i = _currentBlockList.Count - 1; i >= 0 ; i--)
             {
-                //var temp = _currentBlockList[i].transform.position;
+                
                 var temp = (_currentBlockList.Count-1) - i;
-                //_currentBlockList[i].transform.position = temp;
+                
                 if (_currentBlockList[i] != null)
                 {
                     _currentBlockList[i].ChangePosition(temp, isRemoving);
                 }
             }
             GameManager.PlayerController.PlayerMovementBehaviour.SetCharacterHeight();
+            if (_currentBlockList.Count > 0)
+            {
+                GameManager.EventManager.TrailChanged(true, _currentBlockList[_currentBlockList.Count - 1].transform.GetComponent<Renderer>().material.color);
+            }
+            else
+            {
+                GameManager.EventManager.TrailChanged(false, Color.white); // temp solution..
+            }
             CheckAnyThreeBlocksMatched();
         }
         
         [Button]
         private void CheckAnyThreeBlocksMatched()
         {
-            //_distructibleTempBlockList = new List<BlockBehaviour>();
+            
             _distructibleTempBlockList.Clear();
             for (int i = 1; i < _currentBlockList.Count - 1; i++)
             {
