@@ -18,10 +18,14 @@ namespace Scripts.Behaviours
         {
             if (other.gameObject.CompareTag("Obstacle"))
             {
-                List<BlockBehaviour> blockBehaviours;
-                blockBehaviours = new List<BlockBehaviour>();
-                blockBehaviours.Add(transform.GetComponent<BlockBehaviour>());
-                _blockController.GameManager.EventManager.BlockRemoved(ref blockBehaviours, false, other.GetComponent<ObstacleBehaviour>().IsBlockObstacle);
+                if (!_blockController.GameManager.PlayerController.GodMode)
+                {
+
+                    List<BlockBehaviour> blockBehaviours;
+                    blockBehaviours = new List<BlockBehaviour>();
+                    blockBehaviours.Add(transform.GetComponent<BlockBehaviour>());
+                    _blockController.GameManager.EventManager.BlockRemoved(ref blockBehaviours, false, other.GetComponent<ObstacleBehaviour>().IsBlockObstacle);
+                }
             }
         }
     }

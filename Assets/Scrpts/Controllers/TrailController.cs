@@ -2,6 +2,7 @@ using Scripts.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Color = UnityEngine.Color;
 
 namespace Scripts.Controllers
 {
@@ -49,32 +50,45 @@ namespace Scripts.Controllers
                 
                 if (_currnetTrail != null)
                 {
-                    _instantiatedTrails = new List<TrailRenderer>();
+                    
                     if (_oldColor != color)
                     {
-                        _currnetTrail.transform.SetParent(null);
-                        var newLine = Instantiate(_trailRenderer, GameManager.PlayerController.PlayerMovementBehaviour.transform.position + new Vector3(0,-0.48f,0), Quaternion.Euler(90,90,0), GameManager.PlayerController.PlayerMovementBehaviour.transform);
-                        newLine.startColor = color;
-                        newLine.endColor = color;
-                        _oldColor = color;
-                        _currnetTrail = newLine;
-                        _instantiatedTrails.Add(_currnetTrail);
+                        //var newLine = Instantiate(_trailRenderer, GameManager.PlayerController.PlayerMovementBehaviour.transform.position + new Vector3(0,-0.48f,0), Quaternion.Euler(90,90,0), GameManager.PlayerController.PlayerMovementBehaviour.transform);
+                        //newLine.startColor = color;
+                        //newLine.endColor = color;
+                        //_oldColor = color;
+                        //_currnetTrail = newLine;
+                        //_instantiatedTrails.Add(_currnetTrail);
+                        CreateTrail(color);
                     }
                 }
                 else
                 {
-                    var newLine = Instantiate(_trailRenderer, GameManager.PlayerController.PlayerMovementBehaviour.transform.position + new Vector3(0, -0.48f, 0), Quaternion.Euler(90, 90, 0), GameManager.PlayerController.PlayerMovementBehaviour.transform);
-                    newLine.startColor = color;
-                    newLine.endColor = color;
-                    _currnetTrail = newLine;
-                    _instantiatedTrails.Add(_currnetTrail);
+                    _instantiatedTrails = new List<TrailRenderer>();
+                    CreateTrail(color);
+                    
                 }
 
             }
             else
             {
+                
                 _currnetTrail.transform.SetParent(null);
             }
+        }
+
+        public void CreateTrail(Color color)
+        {
+            if (_currnetTrail != null)
+            {
+                _currnetTrail.transform.SetParent(null);
+            }
+            var newLine = Instantiate(_trailRenderer, GameManager.PlayerController.PlayerMovementBehaviour.transform.position + new Vector3(0, -0.48f, 0), Quaternion.Euler(90, 90, 0), GameManager.PlayerController.PlayerMovementBehaviour.transform);
+            newLine.startColor = color;
+            newLine.endColor = color;
+            _oldColor = color;
+            _currnetTrail = newLine;
+            _instantiatedTrails.Add(_currnetTrail);
         }
 
 

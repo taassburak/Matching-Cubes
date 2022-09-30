@@ -18,6 +18,7 @@ namespace Scripts.Behaviours
         {
             gameManager.PlayerController.PlayerMovementBehaviour.CurrentPath = _path;
             gameManager.PlayerController.PlayerMovementBehaviour.IsPathingState = true;
+            gameManager.EventManager.TrailChanged(false, Color.black);
         }
 
 

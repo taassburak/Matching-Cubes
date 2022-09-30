@@ -42,7 +42,7 @@ namespace Scripts.Behaviours
             {
                 transform.position = new Vector3(_playerController.PlayerMovementBehaviour.transform.position.x, CurrentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).y, CurrentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance).z);
                 //_playerController.PlayerMovementBehaviour.transform.position = _currentPath.EvaluatePositionAtUnit(_pathDistance, CinemachinePathBase.PositionUnits.Distance);
-
+                InputController.IsInputDeactivated = true;
 
                 _pathDistance += 10f * Time.deltaTime;
                 if (_pathDistance >= CurrentPath.PathLength)
@@ -53,6 +53,10 @@ namespace Scripts.Behaviours
                     var temp = _playerController.PlayerMovementBehaviour.transform.position;
                     temp.y = 0;
                     _playerController.PlayerMovementBehaviour.transform.position = temp;
+                    if (_playerController.GameManager.BlockController.CurrentBlockList.Count > 0)
+                    {
+                        _playerController.GameManager.TrailController.CreateTrail(_playerController.GameManager.BlockController.CurrentBlockList[_playerController.GameManager.BlockController.CurrentBlockList.Count - 1].transform.GetComponent<Renderer>().material.color);
+                    }
                 }
             }
         }

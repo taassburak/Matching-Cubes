@@ -2023,7 +2023,7 @@ GameObject:
   - component: {fileID: 1616432363}
   - component: {fileID: 1616432362}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Cinemachine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
