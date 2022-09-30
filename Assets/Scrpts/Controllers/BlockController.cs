@@ -95,7 +95,7 @@ namespace Scripts.Controllers
             
 
             //GameManager.PlayerController.PlayerAnimationController.SetAnimation(_currentBlockList.Count, false);
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.20f);
             GameManager.EventManager.AnimationChanged(_currentBlockList.Count, false);
             UpdateBlocksSorting(true);
             
