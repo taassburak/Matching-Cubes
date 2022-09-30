@@ -13,6 +13,9 @@ namespace Scripts.Managers
             base.Initialize(gameManager);
         }
 
+        public delegate void OnBlockRemoved2<T>(ref T item,bool isMatched);
+        public OnBlockRemoved2<List<BlockBehaviour>> OnBlockRemoved2Instance;
+
         public event Action OnGameStarted;
         public event Action<bool> OnLevelFinished;
         public event Action<BlockBehaviour> OnNewBlockCollected;
@@ -40,9 +43,11 @@ namespace Scripts.Managers
             OnNewBlockCollected?.Invoke(blockBehaviour);
         }
 
-        public void BlockRemoved(List<BlockBehaviour> blockBehaviours, bool isMatched)
+        public void BlockRemoved(ref List<BlockBehaviour> blockBehaviours, bool isMatched)
         {
-            OnBlockRemoved?.Invoke(blockBehaviours, isMatched);
+            //OnBlockRemoved?.Invoke(ref blockBehaviours, isMatched);
+
+            OnBlockRemoved2Instance?.Invoke(ref blockBehaviours, isMatched);
         }
 
 
@@ -56,7 +61,7 @@ namespace Scripts.Managers
             OnBlocksShuffled?.Invoke(false);
         }
 
-        public void GodModCombo()
+        public void GodModeCombo()
         {
             OnGodModCombo?.Invoke();
         }

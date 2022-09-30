@@ -6,6 +6,7 @@ using UnityEngine;
 using Scripts.Behaviours;
 using System.Reflection.Emit;
 using Sirenix.OdinInspector.Editor.Validation;
+using System;
 
 namespace Scripts.Controllers
 {
@@ -16,21 +17,22 @@ namespace Scripts.Controllers
         [SerializeField]private List<BlockBehaviour> _currentBlockList;
         [SerializeField] private BlockBehaviour _blockPrefab;
         private List<BlockBehaviour> _distructibleTempBlockList;
-
+        private List<BlockBehaviour> _tempList;
         private int _comboCounter;
 
         public override void Initialize(GameManager gameManager)
         {
             base.Initialize(gameManager);
             _currentBlockList = new List<BlockBehaviour>();
-            GameManager.EventManager.OnBlockRemoved += RemoveBlockFromCurrentBlockList;
+            _distructibleTempBlockList = new List<BlockBehaviour>();
+            GameManager.EventManager.OnBlockRemoved2Instance += RemoveBlockFromCurrentBlockList;
             GameManager.EventManager.OnNewBlockCollected += AddBlockToCurrentBlockList;
             GameManager.EventManager.OnBlocksShuffled += Shuffle;
         }
 
         private void OnDestroy()
         {
-            GameManager.EventManager.OnBlockRemoved -= RemoveBlockFromCurrentBlockList;
+            GameManager.EventManager.OnBlockRemoved2Instance -= RemoveBlockFromCurrentBlockList;
             GameManager.EventManager.OnNewBlockCollected -= AddBlockToCurrentBlockList;
             GameManager.EventManager.OnBlocksShuffled -= Shuffle;
         }
@@ -53,7 +55,7 @@ namespace Scripts.Controllers
         }
 
         [Button]
-        public void RemoveBlockFromCurrentBlockList(List<BlockBehaviour> blockBehaviours, bool isMatched)
+        public void RemoveBlockFromCurrentBlockList(ref List<BlockBehaviour> removedblockBehaviours, bool isMatched)
         {
             if (isMatched)
             {
@@ -61,7 +63,7 @@ namespace Scripts.Controllers
                 _comboCounter++;
                 if (_comboCounter >= 3)
                 {
-                    GameManager.EventManager.GodModCombo();
+                    GameManager.EventManager.GodModeCombo();
                     _comboCounter = 0;
                 }
             }
@@ -70,20 +72,24 @@ namespace Scripts.Controllers
                 Debug.Log("Collide with obstacle");
                 _comboCounter = 0;
             }
-            StartCoroutine(RemoveBlockFromCurrentBlockListCo(blockBehaviours));
+            
+            StartCoroutine(RemoveBlockFromCurrentBlockListCo(removedblockBehaviours));
+
             
         }
 
-        private IEnumerator RemoveBlockFromCurrentBlockListCo(List<BlockBehaviour> blockBehaviours)
+
+        private IEnumerator RemoveBlockFromCurrentBlockListCo(List<BlockBehaviour> removedblockBehaviours)
         {
+            
             yield return new WaitForSeconds(0.25f);
 
-            for (int i = 0; i < blockBehaviours.Count; i++)
+            for (int i = 0; i < removedblockBehaviours.Count; i++)
             {
-                if (blockBehaviours[i] != null)
+                if (removedblockBehaviours[i] != null)
                 {
-                    Destroy(blockBehaviours[i].gameObject);
-                    _currentBlockList.Remove(blockBehaviours[i]);
+                    Destroy(removedblockBehaviours[i].gameObject);
+                    _currentBlockList.Remove(removedblockBehaviours[i]); 
                 }
             }
             GameManager.EventManager.AnimationChanged(_currentBlockList.Count, false);
@@ -91,6 +97,7 @@ namespace Scripts.Controllers
             yield return new WaitForSeconds(0.1f);
             UpdateBlocksSorting(true);
             GameManager.PlayerController.PlayerMovementBehaviour.SetCharacterHeight();
+            removedblockBehaviours.Clear();
         }
 
         [Button]
@@ -157,7 +164,8 @@ namespace Scripts.Controllers
         [Button]
         private void CheckAnyThreeBlocksMatched()
         {
-            _distructibleTempBlockList = new List<BlockBehaviour>();
+            //_distructibleTempBlockList = new List<BlockBehaviour>();
+            _distructibleTempBlockList.Clear();
             for (int i = 1; i < _currentBlockList.Count - 1; i++)
             {
                 if (_currentBlockList[i].Color == _currentBlockList[i-1].Color && _currentBlockList[i].Color == _currentBlockList[i+1].Color)
@@ -165,7 +173,7 @@ namespace Scripts.Controllers
                     _distructibleTempBlockList.Add(_currentBlockList[i]);
                     _distructibleTempBlockList.Add(_currentBlockList[i - 1]);
                     _distructibleTempBlockList.Add(_currentBlockList[i + 1]);
-                    GameManager.EventManager.BlockRemoved(_distructibleTempBlockList, true);
+                    GameManager.EventManager.BlockRemoved(ref _distructibleTempBlockList, true);
                 }
             }
 

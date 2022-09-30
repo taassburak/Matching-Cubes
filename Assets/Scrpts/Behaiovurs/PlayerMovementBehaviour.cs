@@ -23,12 +23,12 @@ namespace Scripts.Behaviours
         public void Initialize(PlayerController playerController)
         {
             _playerController = playerController;
-            InputController.OnDrag += SetCharacterVerticalPosition;
+            InputController.OnDrag += SetCharacterHorizontalPosition;
             Speed = 5f;
         }
         private void OnDestroy()
         {
-            InputController.OnDrag -= SetCharacterVerticalPosition;
+            InputController.OnDrag -= SetCharacterHorizontalPosition;
         }
 
         void Update()
@@ -70,7 +70,7 @@ namespace Scripts.Behaviours
             }
         }
 
-        public void SetCharacterVerticalPosition(Vector2 vector2)
+        public void SetCharacterHorizontalPosition(Vector2 vector2)
         {
             if (!InputController.IsInputDeactivated)
             {

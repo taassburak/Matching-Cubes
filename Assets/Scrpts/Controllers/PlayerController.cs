@@ -46,6 +46,7 @@ namespace Scripts.Controllers
             {
                 _godModeCoroutine = StartCoroutine(GodModeCountDownCo());
             }
+            
         }
 
         private IEnumerator GodModeCountDownCo()

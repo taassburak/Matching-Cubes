@@ -20,7 +20,7 @@ namespace Scripts.Behaviours
                 List<BlockBehaviour> blockBehaviours;
                 blockBehaviours = new List<BlockBehaviour>();
                 blockBehaviours.Add(transform.GetComponent<BlockBehaviour>());
-                _blockController.GameManager.EventManager.BlockRemoved(blockBehaviours, false);
+                _blockController.GameManager.EventManager.BlockRemoved(ref blockBehaviours, false);
             }
         }
     }
